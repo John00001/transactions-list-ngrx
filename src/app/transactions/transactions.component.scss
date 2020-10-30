@@ -1,0 +1,26 @@
+.transactions-scroll-viewport {
+  height: 100%;
+  width: 100%;
+}
+
+.transaction-item {
+  height: 40px;
+  display: flex;
+  justify-content: space-between;
+
+  .transaction-text {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+  }
+}
+
+cdk-virtual-scroll-viewport {
+  border: 1px solid black;
+
+  li {
+    list-style: none;
+  }
+}

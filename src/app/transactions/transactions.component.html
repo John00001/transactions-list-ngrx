@@ -1,0 +1,17 @@
+<cdk-virtual-scroll-viewport
+  [itemSize]="40"
+  class="transactions-scroll-viewport">
+
+  <li *cdkVirtualFor="let transaction of dataSource">
+    <div *ngIf="transaction" class="transaction-item">
+      <div class="transaction-text">{{ transaction.type }}</div>
+      <div class="transaction-text">{{ transaction.volume }}</div>
+      <div class="transaction-text">{{ transaction.time }}</div>
+      <div class="transaction-text">{{ transaction.sender }}</div>
+    </div>
+    <div *ngIf="!transaction">
+      Loading ...
+    </div>
+
+  </li>
+</cdk-virtual-scroll-viewport>
