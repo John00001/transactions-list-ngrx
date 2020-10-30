@@ -38,7 +38,7 @@ export class TransactionsDataSource extends DataSource<Transaction | undefined> 
     super();
 
     // Start with some data.
-    this._fetchFactPage();
+    this.fetchTransactions();
   }
 
   connect(collectionViewer: CollectionViewer): Observable<(Transaction | undefined)[] | ReadonlyArray<Transaction | undefined>> {
@@ -52,7 +52,7 @@ export class TransactionsDataSource extends DataSource<Transaction | undefined> 
 
       if (currentPage > this.lastPage) {
         this.lastPage = currentPage;
-        this._fetchFactPage();
+        this.fetchTransactions();
       }
     }));
     return this.dataStream;
@@ -62,7 +62,7 @@ export class TransactionsDataSource extends DataSource<Transaction | undefined> 
     this.subscription.unsubscribe();
   }
 
-  private _fetchFactPage(): void {
+  private fetchTransactions(): void {
     const params = this.buildParams();
 
     this.transactionsService.getTransactions(params).subscribe((res: Array<Transaction>) => {
