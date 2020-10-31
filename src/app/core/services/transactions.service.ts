@@ -10,6 +10,12 @@ import { NGXLogger } from 'ngx-logger';
   providedIn: 'root'
 })
 export class TransactionsService {
+  private transactionsParams = {
+    columns: 'row_id,time,type,sender,volume',
+    receiver: 'tz1gfArv665EUkSg2ojMBzcbfwuPxAvqPvjo',
+    type: 'transaction',
+    limit: 10
+  };
 
   constructor(
     private http: HttpClient,
@@ -17,22 +23,46 @@ export class TransactionsService {
   ) {
   }
 
-  getTransactions(params: HttpParams): Observable<Array<Transaction> | HttpErrorResponse> {
-    return this.http.get(`${environment.baseUrl}?${params}`)
-      .pipe(map(this.mapTransactions),
-        catchError((err: HttpErrorResponse): Observable<HttpErrorResponse> => {
-          this.ngxLogger.error('Something went wrong on fetching Transactions: ', err.message);
-          return throwError(err);
-        }));
+  getTransactions(): Observable<any> {
+    const params = this.buildParams();
+
+    return this.http.get(`${environment.baseUrl}?${params}`);
+      // .pipe(map(this.mapTransactions),
+      //   catchError((err: HttpErrorResponse): Observable<HttpErrorResponse> => {
+      //     this.ngxLogger.error('Something went wrong on fetching Transactions: ', err.message);
+      //     return throwError(err);
+      //   }));
   }
 
-  private mapTransactions = (response: Array<Array<any>>): Array<Transaction> => {
-    return response.map((item: Array<any>): Transaction => new Transaction({
-      rowId: item[0],
-      time: new Date(item[1]),
-      type: item[2],
-      sender: item[3],
-      volume: item[4]
-    }));
+  // private mapTransactions = (response: Array<Array<any>>): Array<Transaction> => {
+  //   return response.map((item: Array<any>): Transaction => new Transaction({
+  //     rowId: item[0],
+  //     time: new Date(item[1]),
+  //     type: item[2],
+  //     sender: item[3],
+  //     volume: item[4]
+  //   }));
+  // }
+
+  private buildParams() {
+    const cursor = this.getCursor();
+    let params = new HttpParams()
+      .set('columns', this.transactionsParams.columns)
+      .set('receiver', this.transactionsParams.receiver)
+      .set('type', this.transactionsParams.type)
+      .set('limit', this.transactionsParams.limit.toString());
+
+    if (cursor) {
+      params = params.set('cursor', cursor);
+    }
+
+    return params;
+  }
+
+  private getCursor(): string {
+    // return this.cachedFacts.length ?
+    //   this.cachedFacts[this.cachedFacts.length - 1].rowId.toString() :
+    //   null;
+    return null;
   }
 }
