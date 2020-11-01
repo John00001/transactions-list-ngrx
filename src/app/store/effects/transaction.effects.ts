@@ -27,7 +27,7 @@ export class TransactionEffects {
     return response.map((item: Array<any>): Transaction => new Transaction({
       rowId: item[0],
       time: new Date(item[1]),
-      type: item[2],
+      status: item[2],
       sender: item[3],
       volume: item[4]
     }));

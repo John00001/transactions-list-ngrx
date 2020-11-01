@@ -19,6 +19,9 @@ import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FooterComponent } from './footer/footer.component';
+import { AddressPipe } from './core/pipes/address.pipe';
+import { XtzPipe } from './core/pipes/xtz.pipe';
+import { UsdPipe } from './core/pipes/usd.pipe';
 
 @NgModule({
   declarations: [
@@ -27,6 +30,9 @@ import { FooterComponent } from './footer/footer.component';
     HomeComponent,
     NavbarComponent,
     FooterComponent,
+    AddressPipe,
+    XtzPipe,
+    UsdPipe
   ],
   imports: [
     BrowserModule,

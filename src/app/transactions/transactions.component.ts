@@ -60,7 +60,6 @@ export class TransactionsDataSource extends DataSource<Transaction | undefined> 
   }
 
   disconnect(collectionViewer: CollectionViewer): void {
-    this.transactions$.unsubscribe();
     this.subscription.unsubscribe();
   }
 
