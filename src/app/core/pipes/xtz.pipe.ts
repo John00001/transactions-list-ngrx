@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 export class XtzPipe implements PipeTransform {
   transform(value: number): string {
-    const sign = value === 0 ? '' : value > 0 ? '+' : '-';
-    return `${sign}${value.toString()} XTZ`;
+    const extraSign = value > 0 ? '+' : '';
+    return `${extraSign}${value.toString()} XTZ`;
   }
 }
