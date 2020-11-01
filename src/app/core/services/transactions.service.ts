@@ -23,8 +23,8 @@ export class TransactionsService {
   ) {
   }
 
-  getTransactions(): Observable<any> {
-    const params = this.buildParams();
+  getTransactions(lastTransactionRowId: number = null): Observable<any> {
+    const params = this.buildParams(lastTransactionRowId);
 
     return this.http.get(`${environment.baseUrl}?${params}`);
       // .pipe(map(this.mapTransactions),
@@ -44,8 +44,7 @@ export class TransactionsService {
   //   }));
   // }
 
-  private buildParams() {
-    const cursor = this.getCursor();
+  private buildParams(cursor) {
     let params = new HttpParams()
       .set('columns', this.transactionsParams.columns)
       .set('receiver', this.transactionsParams.receiver)
@@ -57,12 +56,5 @@ export class TransactionsService {
     }
 
     return params;
-  }
-
-  private getCursor(): string {
-    // return this.cachedFacts.length ?
-    //   this.cachedFacts[this.cachedFacts.length - 1].rowId.toString() :
-    //   null;
-    return null;
   }
 }

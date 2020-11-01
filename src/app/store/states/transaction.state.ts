@@ -5,5 +5,5 @@ export interface TransactionState {
 }
 
 export const initialTransactionState: TransactionState = {
-  transactions: null
+  transactions: []
 };

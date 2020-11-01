@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { GetTransactions, GetTransactionsSuccess, TransactionActionsEnum } from '../actions/transaction.actions';
-import { switchMap } from 'rxjs/operators';
+import { filter, switchMap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { TransactionsService } from '../../core/services/transactions.service';
 import { AppState } from '../states/app.state';
@@ -13,7 +13,13 @@ export class TransactionEffects {
   @Effect()
   getTransactions$ = this.actions$.pipe(
     ofType<GetTransactions>(TransactionActionsEnum.GetTransactions),
-    switchMap(() => this.transactionsService.getTransactions()),
+    withLatestFrom(this.store, (action, state) => ({ state })),
+    switchMap(({ state }) => {
+      const lastTransactionRowId = state.transactions.transactions.length ?
+        state.transactions.transactions[state.transactions.transactions.length - 1].rowId :
+        null;
+      return this.transactionsService.getTransactions(lastTransactionRowId);
+    }),
     switchMap((response: Array<Array<any>>) => of(new GetTransactionsSuccess(this.mapTransactions(response))))
   );
 
@@ -25,7 +31,7 @@ export class TransactionEffects {
       sender: item[3],
       volume: item[4]
     }));
-  }
+  };
 
   constructor(
     private transactionsService: TransactionsService,

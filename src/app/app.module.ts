@@ -15,11 +15,18 @@ import { EffectsModule } from '@ngrx/effects';
 import { TransactionEffects } from './store/effects/transaction.effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { HomeComponent } from './home/home.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TransactionsComponent
+    TransactionsComponent,
+    HomeComponent,
+    NavbarComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,7 +41,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     StoreModule.forRoot(appReducers),
     EffectsModule.forRoot([TransactionEffects]),
     StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
-    !environment.production ? StoreDevtoolsModule.instrument() : []
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    MatToolbarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

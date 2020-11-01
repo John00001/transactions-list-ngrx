@@ -27,12 +27,11 @@ export class TransactionsComponent {
 
 export class TransactionsDataSource extends DataSource<Transaction | undefined> {
   transactions$: Subscription;
-  private cachedFacts = Array.from<Transaction>({ length: 0 });
-  private dataStream = new BehaviorSubject<(Transaction | undefined)[]>(this.cachedFacts);
+  private dataStream = new BehaviorSubject<(Transaction | undefined)[]>(Array.from<Transaction>({ length: 0 }));
   private subscription = new Subscription();
 
   private pageSize = 10;
-  private lastPage = 0;
+  private transactionListLength = 0;
 
   constructor(
     private transactionsService: TransactionsService,
@@ -40,27 +39,20 @@ export class TransactionsDataSource extends DataSource<Transaction | undefined> 
   ) {
     super();
 
-    // this.fetchTransactions();
     this.store.dispatch(new GetTransactions());
     this.transactions$ = this.store.pipe(select(selectTransactionList)).subscribe((res: Array<Transaction>) => {
-        this.cachedFacts = this.cachedFacts.concat(res);
-        this.dataStream.next(this.cachedFacts);
+        this.transactionListLength = res.length;
+        this.dataStream.next(res);
       }
     );
   }
 
   connect(collectionViewer: CollectionViewer): Observable<(Transaction | undefined)[] | ReadonlyArray<Transaction | undefined>> {
     this.subscription.add(collectionViewer.viewChange.subscribe(range => {
-
       const currentPage = this.getPageForIndex(range.end);
+      const lastPage = this.getLastPage();
 
-      if (currentPage && range) {
-        console.log(currentPage, this.lastPage);
-      }
-
-      if (currentPage > this.lastPage) {
-        this.lastPage = currentPage;
-        // this.fetchTransactions()
+      if (currentPage > lastPage) {
         this.store.dispatch(new GetTransactions());
       }
     }));
@@ -68,18 +60,16 @@ export class TransactionsDataSource extends DataSource<Transaction | undefined> 
   }
 
   disconnect(collectionViewer: CollectionViewer): void {
+    this.transactions$.unsubscribe();
     this.subscription.unsubscribe();
   }
 
-  // private fetchTransactions(): void {
-  //   this.transactionsService.getTransactions().subscribe((res: Array<Transaction>) => {
-  //     this.cachedFacts = this.cachedFacts.concat(res);
-  //     this.dataStream.next(this.cachedFacts);
-  //   });
-  // }
+  private getPageForIndex(end: number): number {
+    return Math.floor(end / this.pageSize);
+  }
 
-  private getPageForIndex(i: number): number {
-    return Math.floor(i / this.pageSize);
+  private getLastPage(): number {
+    return Math.floor(this.transactionListLength / this.pageSize) - 1;
   }
 
 }

@@ -1,6 +1,10 @@
 .transactions-scroll-viewport {
-  height: 100%;
-  width: 100%;
+  border: 1px solid black;
+  width: 1000px;
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  height: 300px;
 }
 
 .transaction-item {
@@ -18,8 +22,6 @@
 }
 
 cdk-virtual-scroll-viewport {
-  border: 1px solid black;
-
   li {
     list-style: none;
   }

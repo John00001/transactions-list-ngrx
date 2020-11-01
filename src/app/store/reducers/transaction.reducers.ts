@@ -9,7 +9,7 @@ export const transactionReducers = (
     case TransactionActionsEnum.GetTransactionsSuccess: {
       return {
         ...state,
-        transactions: action.payload
+        transactions: state.transactions.concat(action.payload)
       };
     }
 
