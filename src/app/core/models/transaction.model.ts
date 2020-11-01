@@ -1,7 +1,7 @@
 export interface TransactionModel {
   rowId: number;
   time: Date;
-  type: string;
+  status: string;
   sender: string;
   volume: number;
 }
@@ -9,7 +9,7 @@ export interface TransactionModel {
 export class Transaction implements TransactionModel {
   rowId = -1;
   time = null;
-  type = '';
+  status = '';
   sender = '';
   volume = -1;
 
@@ -19,7 +19,7 @@ export class Transaction implements TransactionModel {
     }
     this.rowId = dto.rowId || this.rowId;
     this.time = dto.time || this.time;
-    this.type = dto.type || this.type;
+    this.status = dto.status || this.status;
     this.sender = dto.sender || this.sender;
     this.volume = dto.volume || this.volume;
   }

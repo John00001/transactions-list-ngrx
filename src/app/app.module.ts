@@ -9,11 +9,30 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { environment } from '../environments/environment';
 import { ScrollingModule } from '@angular/cdk/scrolling';
+import { appReducers } from './store/reducers/app.reducers';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { TransactionEffects } from './store/effects/transaction.effects';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { HomeComponent } from './home/home.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { FooterComponent } from './footer/footer.component';
+import { AddressPipe } from './core/pipes/address.pipe';
+import { XtzPipe } from './core/pipes/xtz.pipe';
+import { UsdPipe } from './core/pipes/usd.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TransactionsComponent
+    TransactionsComponent,
+    HomeComponent,
+    NavbarComponent,
+    FooterComponent,
+    AddressPipe,
+    XtzPipe,
+    UsdPipe
   ],
   imports: [
     BrowserModule,
@@ -24,9 +43,15 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
       level: environment.production ? NgxLoggerLevel.OFF : NgxLoggerLevel.LOG,
       serverLogLevel: NgxLoggerLevel.OFF
     }),
-    ScrollingModule
+    ScrollingModule,
+    StoreModule.forRoot(appReducers),
+    EffectsModule.forRoot([TransactionEffects]),
+    StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
+    MatToolbarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

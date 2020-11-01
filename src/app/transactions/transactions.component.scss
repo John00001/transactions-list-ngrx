@@ -1,26 +1,76 @@
-.transactions-scroll-viewport {
-  height: 100%;
-  width: 100%;
-}
+@import "src/assets/styles/variables";
 
-.transaction-item {
-  height: 40px;
+.transactions-container {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  border-radius: 4px;
+  border: 1px solid $super-light-grey;
+  user-select: none;
+  cursor: pointer;
 
-  .transaction-text {
-    height: 100%;
+  .title-container {
+    padding: 15px 20px;
     display: flex;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
-    border-radius: 10px;
+    color: $text-color-dark;
+
+    .title-icon,
+    .title {
+      line-height: 20px;
+      font-weight: 500;
+    }
+
+    .title-icon {
+      font-size: 21px;
+      margin-right: 5px;
+    }
   }
+
+  .header {
+    display: grid;
+    grid-template-columns: 100px 1fr 150px 100px 16px;
+    padding: 10px 20px;
+    background-color: $transactions-header-bc;
+    color: $text-color-light;
+  }
+
+
+  .transactions-scroll-viewport {
+    width: 1000px;
+    height: 300px;
+
+    .transaction-item {
+      width: 100%;
+      height: 40px;
+      line-height: 35px;
+      display: grid;
+      grid-template-columns: 100px 1fr 150px 100px;
+      padding: 6px 20px;
+
+      .transaction-text {
+        height: 100%;
+
+        .usd {
+          color: $text-color-light;
+          padding-left: 10px;
+        }
+
+        .type {
+          border: 1px solid $text-color-dark;
+          padding: 1px 10px;
+          border-radius: 30px;
+          text-transform: capitalize;
+
+          &.applied {
+            border-color: $applied-status-bc;
+            background-color: $applied-status-bc;
+          }
+        }
+      }
+    }
+  }
+
+
 }
 
-cdk-virtual-scroll-viewport {
-  border: 1px solid black;
-
-  li {
-    list-style: none;
-  }
-}

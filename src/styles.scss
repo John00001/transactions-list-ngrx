@@ -10,6 +10,23 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+.main-container {
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
 * {
   box-sizing: border-box !important;
+}
+
+a {
+  text-decoration: none;
+}
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

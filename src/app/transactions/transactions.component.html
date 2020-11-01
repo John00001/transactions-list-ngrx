@@ -1,17 +1,33 @@
-<cdk-virtual-scroll-viewport
-  [itemSize]="40"
-  class="transactions-scroll-viewport">
+<div class="transactions-container">
+  <div class="title-container">
+    <i class="material-icons title-icon">history</i>
+    <span class="title">Recent Transactions</span>
+  </div>
 
-  <li *cdkVirtualFor="let transaction of dataSource">
-    <div *ngIf="transaction" class="transaction-item">
-      <div class="transaction-text">{{ transaction.type }}</div>
-      <div class="transaction-text">{{ transaction.volume }}</div>
-      <div class="transaction-text">{{ transaction.time }}</div>
-      <div class="transaction-text">{{ transaction.sender }}</div>
-    </div>
-    <div *ngIf="!transaction">
-      Loading ...
-    </div>
+  <div class="header">
+    <div class="transaction-text">Type</div>
+    <div class="transaction-text">Amount XTZ ( USD )</div>
+    <div class="transaction-text">Date</div>
+    <div class="transaction-text">Address</div>
+  </div>
 
-  </li>
-</cdk-virtual-scroll-viewport>
+  <cdk-virtual-scroll-viewport
+    [itemSize]="40"
+    class="transactions-scroll-viewport">
+    <div *cdkVirtualFor="let transaction of dataSource">
+      <div *ngIf="transaction" class="transaction-item">
+        <div class="transaction-text truncate"><span class="type" [class]="transaction.status">{{ transaction.status }}</span></div>
+        <div class="transaction-text truncate">
+          <span class="xtz">{{ transaction.volume | xtz }}</span>
+          <span class="usd">{{ transaction.volume | usd }}</span>
+        </div>
+        <div class="transaction-text truncate">{{ transaction.time | date:'MMM dd yyyy, hh:mm' }}</div>
+        <div class="transaction-text truncate">{{ transaction.sender | address }}</div>
+      </div>
+      <div *ngIf="!transaction">
+        Loading ...
+      </div>
+    </div>
+  </cdk-virtual-scroll-viewport>
+
+</div>
