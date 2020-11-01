@@ -15,4 +15,12 @@ describe('XtzPipe', () => {
     expect(pipe.transform(-1000)).toBe('-1000 XTZ');
   });
 
+  it('transforms null to "0 XTZ"', () => {
+    expect(pipe.transform(null)).toBe('0 XTZ');
+  });
+
+  it('transforms undefined to "0 XTZ"', () => {
+    expect(pipe.transform(undefined)).toBe('0 XTZ');
+  });
+
 });

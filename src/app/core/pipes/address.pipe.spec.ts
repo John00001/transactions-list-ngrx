@@ -11,4 +11,12 @@ describe('AddressPipe', () => {
     expect(pipe.transform('tz1bDXD6nNSrebqmAnnKKwnX1QdePSMCj4MX')).toBe('tz...Cj4MX');
   });
 
+  it('transforms null to ""', () => {
+    expect(pipe.transform(null)).toBe('');
+  });
+
+  it('transforms undefined to ""', () => {
+    expect(pipe.transform(undefined)).toBe('');
+  });
+
 });
