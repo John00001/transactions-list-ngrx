@@ -1,7 +1,18 @@
+@import "src/assets/styles/variables";
+
 .card {
-  border: 1px solid black;
+  border: 1px solid $super-light-grey;
   width: 800px;
   display: flex;
   flex-direction: column;
   padding: 15px;
+  color: $text-color-dark;
+
+  .btn-container {
+    margin-top: 20px;
+
+    button {
+      color: $text-color-dark;
+    }
+  }
 }

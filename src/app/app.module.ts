@@ -22,6 +22,7 @@ import { FooterComponent } from './footer/footer.component';
 import { AddressPipe } from './core/pipes/address.pipe';
 import { XtzPipe } from './core/pipes/xtz.pipe';
 import { UsdPipe } from './core/pipes/usd.pipe';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { UsdPipe } from './core/pipes/usd.pipe';
     EffectsModule.forRoot([TransactionEffects]),
     StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
-    MatToolbarModule
+    MatToolbarModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
