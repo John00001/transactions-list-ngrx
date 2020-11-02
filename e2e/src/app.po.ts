@@ -1,11 +1,35 @@
-import { browser, by, element } from 'protractor';
+import { browser, by, element, ElementFinder } from 'protractor';
 
 export class AppPage {
-  navigateTo(): Promise<unknown> {
-    return browser.get(browser.baseUrl) as Promise<unknown>;
+  navigateTo(route: string = ''): Promise<unknown> {
+    return browser.get(`${browser.baseUrl}/${route}`) as Promise<unknown>;
   }
 
-  getTitleText(): Promise<string> {
-    return element(by.css('app-root .content span')).getText() as Promise<string>;
+  checkPresence(selector): void {
+    const el = this.selectElement(selector);
+
+    if (el) {
+      expect(el.isPresent()).toBeTruthy();
+    }
+  }
+
+  selectElement(selector): ElementFinder {
+    switch (selector.searchBy) {
+      case 'tag':
+        return element(by.tagName(selector.text));
+        break;
+
+      case 'id':
+        return element(by.id(selector.text));
+        break;
+
+      case 'class':
+        return element(by.className(selector.text));
+        break;
+
+      default:
+        return null;
+        break;
+    }
   }
 }
